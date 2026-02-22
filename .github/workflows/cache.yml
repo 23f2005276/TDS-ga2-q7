@@ -1,0 +1,25 @@
+name: Dependency Caching
+
+on: 
+  push: 
+
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Create fake dependencies
+        run: mkdir -p my-dependencies && echo "test" > my-dependencies/test.txt
+        
+      - name: Setup Cache
+        id: my-cache
+        uses: actions/cache@v4
+        with:
+          path: my-dependencies 
+          key: cache-d1ce807    
+          
+      - name: prime-cache-d1ce807
+        run: echo "Cache hit result is ${{ steps.my-cache.outputs.cache-hit }}"
